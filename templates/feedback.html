@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="section" style="min-height: 80vh; display: flex; align-items: center;">
+    <div class="container" style="max-width: 600px;">
+        <div class="card" style="padding: 3rem;">
+            <h1 style="text-align: center; margin-bottom: 2rem;">We Value Your Feedback</h1>
+            <p style="text-align: center; margin-bottom: 2rem; color: var(--text-muted);">Help us improve our services
+                by sharing your experience.</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_name">Name (Optional)</label>
+                    <input type="text" name="name" id="id_name"
+                        style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 5px;">
+                </div>
+                <div class="form-group">
+                    <label for="id_email">Email (Optional)</label>
+                    <input type="email" name="email" id="id_email"
+                        style="width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid var(--border); border-radius: 5px;">
+                </div>
+                <div class="form-group">
+                    <label>Rating</label>
+                    <div class="rating-stars"
+                        style="display: flex; gap: 1rem; margin-bottom: 1rem; font-size: 1.5rem; justify-content: center;">
+                        <!-- Simple radio buttons styled or just distinct options -->
+                        <label><input type="radio" name="rating" value="5" required> Excellent</label>
+                        <label><input type="radio" name="rating" value="4"> Very Good</label>
+                        <label><input type="radio" name="rating" value="3"> Good</label>
+                        <label><input type="radio" name="rating" value="2"> Fair</label>
+                        <label><input type="radio" name="rating" value="1"> Poor</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="id_message">Comments</label>
+                    <textarea name="message" id="id_message" rows="5" required
+                        style="width: 100%; padding: 0.8rem; margin-bottom: 2rem; border: 1px solid var(--border); border-radius: 5px;"></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Submit Feedback</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

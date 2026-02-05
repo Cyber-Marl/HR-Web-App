@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero-container">
+        <div class="hero-content fade-in">
+            <h1 class="hero-title">Empowering Your Workforce <br><span class="highlight">Driving Success</span></h1>
+            <p class="hero-subtitle">Strategic Synergy Consultancy delivers premium HR solutions designed to optimize
+                your organizational performance and culture.</p>
+            <div class="cta-group">
+                <a href="{% url 'contact' %}" class="btn btn-primary">Start Transformation</a>
+                <a href="{% url 'services' %}" class="btn btn-outline">Explore Services</a>
+            </div>
+        </div>
+        <!-- Abstract graphic or 3D element placeholder -->
+        <div class="hero-visual">
+            <div class="hero-image-placeholder"></div>
+        </div>
+    </div>
+</section>
+
+<section class="section business-challenges">
+    <div class="container text-center">
+        <h2 class="section-title-large">What business challenge are you looking to solve?</h2>
+        <div class="challenge-grid">
+            <a href="{% url 'services' %}" class="challenge-btn">Driving organizational change <i
+                    class="fas fa-arrow-right"></i></a>
+            <a href="{% url 'services' %}" class="challenge-btn">Managing talent costs <i
+                    class="fas fa-arrow-right"></i></a>
+            <a href="{% url 'services' %}" class="challenge-btn">Improving sales results <i
+                    class="fas fa-arrow-right"></i></a>
+            <a href="{% url 'careers:job_list' %}" class="challenge-btn">Scaling recruitment <i
+                    class="fas fa-arrow-right"></i></a>
+            <a href="{% url 'services' %}" class="challenge-btn">Identifying and developing leaders <i
+                    class="fas fa-arrow-right"></i></a>
+            <a href="{% url 'insights:article_list' %}" class="challenge-btn">Leveraging talent data <i
+                    class="fas fa-arrow-right"></i></a>
+            <a href="{% url 'careers:job_list' %}" class="challenge-btn">My next career move <i
+                    class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="challenge-search-wrapper">
+            <form action="{% url 'services' %}" method="GET" class="challenge-search-form">
+                <input type="text" name="q" placeholder="I need to identify future leaders...">
+                <button type="submit" class="search-submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</section>
+
+</section>
+
+<section class="section trusted-by">
+    <div class="container text-center">
+        <p class="section-label">Trusted by industry leaders</p>
+        <div class="logo-grid">
+            <div class="client-logo">ACME Corp</div>
+            <div class="client-logo">GlobalTech</div>
+            <div class="client-logo">Nexus Industries</div>
+            <div class="client-logo">Starlight Financial</div>
+            <div class="client-logo">Vanguard Systems</div>
+        </div>
+    </div>
+</section>
+
+<section class="section mission-statement">
+    <div class="container text-center">
+        <div class="mission-content">
+            <h2 class="section-title">Our Philosophy</h2>
+            <blockquote class="mission-quote">
+                "We strongly believe in the power of human potential to shape strategic, organizational, and societal
+                change. We believe in the unlimited potential of every human being. We believe in growing by growing
+                others."
+            </blockquote>
+            <p class="mission-desc">Strategic Synergy is a Human Resources Consulting firm, synchronizing strategy and
+                talent to drive superior performance for our clients.</p>
+            <a href="{% url 'about' %}" class="btn">More About Us</a>
+        </div>
+    </div>
+</section>
+
+<section class="section impact-stats">
+    <div class="container">
+        <div class="grid-4 text-center">
+            <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Executives Placed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Retention Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">50</div>
+                <div class="stat-label">Countries Served</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">10k+</div>
+                <div class="stat-label">Leaders Trained</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section insights-preview">
+    <div class="container">
+        <h2 class="section-title">Latest Perspectives</h2>
+        <div class="grid-3">
+            <div class="card insight-card featured">
+                <span class="badg">Featured</span>
+                <h3>The Future of Hybrid Work</h3>
+                <p>How organizations are adapting to the new normal while maintaining culture.</p>
+                <a href="#" class="read-more">Read Article &rarr;</a>
+            </div>
+            <div class="card insight-card">
+                <span class="badg">New</span>
+                <h3>AI in HR</h3>
+                <p>Leveraging artificial intelligence for better talent acquisition.</p>
+                <a href="#" class="read-more">Read Article &rarr;</a>
+            </div>
+            <div class="card insight-card">
+                <span class="badg">Trend</span>
+                <h3>Leadership in Crisis</h3>
+                <p>Navigating uncertainty with resilience and empathy.</p>
+                <a href="#" class="read-more">Read Article &rarr;</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section job-search-banner">
+    <div class="container text-center">
+        <h2>Find Your Next Challenge</h2>
+        <p>Explore opportunities with top employers.</p>
+        <div class="search-box">
+            <input type="text" placeholder="Job title, keywords, or company...">
+            <a href="{% url 'careers:job_list' %}" class="btn btn-primary">Search Jobs</a>
+        </div>
+    </div>
+</section>
+
+<section class="section features">
+    <div class="container">
+        <h2 class="section-title">Why Choose Us?</h2>
+        <div class="grid-3">
+            <div class="card feature-card">
+                <div class="icon">🚀</div>
+                <h3>Growth Focused</h3>
+                <p>Strategies aligned with your business goals to ensure sustainable expansion.</p>
+            </div>
+            <div class="card feature-card">
+                <div class="icon">💡</div>
+                <h3>Innovative Solutions</h3>
+                <p>Modern HR practices that adapt to the changing landscape of work.</p>
+            </div>
+            <div class="card feature-card">
+                <div class="icon">🤝</div>
+                <h3>People First</h3>
+                <p>Building cultures where employees thrive and businesses flourish.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="service-hero">
+    <div class="container">
+        <div class="grid-2">
+            <div class="service-hero-image">
+                <div class="hero-image-placeholder" style="aspect-ratio: 16/9; border-radius: 8px;"></div>
+            </div>
+            <div class="service-hero-content">
+                <h1>Leadership Development</h1>
+                <p class="service-intro">Unlock the potential of everyone in your organization, from executives to new
+                    hires, to thrive in today's challenging business environment via targeted learning programs. Help
+                    your people exceed their potential, so they can unlock yours.</p>
+                <p>You can't predict what tomorrow holds for your organization. But with the right leadership and
+                    professional development, you can be prepared for anything. Leadership and professional development
+                    unlocks value at all levels.</p>
+                <p>For the individual, this means honing their skills, learning new tools, and growing as a
+                    professional, whether that means focusing on leadership or broadening and deepening capabilities in
+                    their career. We help you understand what success looks like in your leaders and professionals. What
+                    will enable agility and change at every level in your organization.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section bg-surface">
+    <div class="container">
+        <div class="grid-2">
+            <div class="content-block">
+                <h2>High Potentials</h2>
+                <p>Emerging leaders, referred to as high potentials, are your high-drive, agile employees. They are
+                    innovative, have emotional intelligence and thrive on expanding their contributions with every
+                    project.</p>
+                <p>Developing these leaders will only add to organizational success but also help retain your star
+                    talent.</p>
+            </div>
+            <div class="content-block">
+                <h2>Mid-Level & First-Time Managers</h2>
+                <p>Mid-level and first-time managers are your pipeline of future change-makers. These are your strategy
+                    translators and culture carriers, this is the make it or break it level of talent development.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section cta-section">
+    <div class="container text-center">
+        <h2>Ready to Develop Your Leaders?</h2>
+        <p>Let's discuss how our leadership development programs can transform your organization.</p>
+        <a href="{% url 'contact' %}" class="btn btn-primary">Get In Touch</a>
+    </div>
+</section>
+{% endblock %}

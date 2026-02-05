@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Client Dashboard</h1>
+        <p>Welcome back, {{ user.first_name|default:user.username }}</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2>My Documents</h2>
+            <form action="{% url 'portal:logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline">Logout <i class="fas fa-sign-out-alt"></i></button>
+            </form>
+        </div>
+
+        <div class="grid-3">
+            {% for doc in documents %}
+            <div class="card doc-card">
+                <div class="doc-icon">
+                    <i class="fas fa-file-pdf" style="font-size: 3rem; color: var(--primary);"></i>
+                </div>
+                <h3>{{ doc.title }}</h3>
+                <p>{{ doc.description|default:"Confidential Document" }}</p>
+                <div class="meta" style="font-size: 0.8rem; color: var(--text-muted); margin: 1rem 0;">
+                    Uploaded: {{ doc.uploaded_at|date:"M d, Y" }}
+                </div>
+                <a href="{{ doc.file.url }}" class="btn" download>Download</a>
+            </div>
+            {% empty %}
+            <div class="empty-state"
+                style="grid-column: 1 / -1; text-align: center; padding: 4rem; background: var(--surface); border-radius: 20px; border: 1px dashed var(--border);">
+                <i class="fas fa-folder-open" style="font-size: 3rem; color: var(--border); margin-bottom: 1rem;"></i>
+                <h3>No documents found</h3>
+                <p>Reports and contracts will appear here once generated.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<style>
+    .doc-card {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .doc-icon {
+        margin-bottom: 1.5rem;
+    }
+</style>
+{% endblock %}

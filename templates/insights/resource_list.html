@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Resource Center</h1>
+        <p>Essential templates, checklists, and guides to empower your HR strategy.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="grid-3">
+            {% for resource in resources %}
+            <div class="card resource-card">
+                <span class="badg">{{ resource.get_resource_type_display }}</span>
+                <h3>{{ resource.title }}</h3>
+                <p>{{ resource.description|truncatewords:20 }}</p>
+                <div class="resource-actions" style="margin-top: 1rem;">
+                    <a href="{{ resource.file.url }}" class="btn" download>Download <i class="fas fa-download"></i></a>
+                </div>
+                <div class="meta" style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
+                    <span>Added: {{ resource.created_at|date:"M d, Y" }}</span>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 4rem;">
+                <i class="fas fa-folder-open" style="font-size: 3rem; color: var(--border); margin-bottom: 1rem;"></i>
+                <h3>No resources available yet.</h3>
+                <p>Check back soon for templates and guides.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<style>
+    .resource-card {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .resource-actions {
+        margin-top: auto;
+    }
+</style>
+{% endblock %}

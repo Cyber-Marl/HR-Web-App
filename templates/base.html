@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Synergy Consultancy</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">Strategic Synergy</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="{% url 'about' %}" class="dropbtn">About</a>
+                    <div class="dropdown-content mega-menu two-column">
+                        <div class="column">
+                            <h3>Who We Are</h3>
+                            <a href="{% url 'about' %}">Our Story</a>
+                            <a href="{% url 'about' %}#mission">Mission & Vision</a>
+                            <a href="{% url 'about' %}#values">Core Values</a>
+                        </div>
+                        <div class="column">
+                            <h3>Connect</h3>
+                            <a href="{% url 'contact' %}">Contact Us</a>
+                            <a href="{% url 'contact' %}#locations">Our Offices</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="{% url 'services' %}" class="dropbtn">Expertise</a>
+                    <div class="dropdown-content mega-menu three-column">
+                        <div class="column">
+                            <h3>Strategy & Planning</h3>
+                            <a href="{% url 'services' %}">Strategic Planning</a>
+                            <a href="{% url 'services' %}">Corporate Strategy</a>
+                            <a href="{% url 'services' %}">People Strategy & Performance</a>
+                            <a href="{% url 'services' %}">Organizational Design</a>
+                        </div>
+                        <div class="column">
+                            <h3>Talent & Leadership</h3>
+                            <a href="{% url 'services' %}">Talent Acquisition</a>
+                            <a href="{% url 'service_detail' 'leadership-development' %}">Leadership Development</a>
+                            <a href="{% url 'services' %}">Building High Performance Teams</a>
+                            <a href="{% url 'services' %}">Assessment & Succession</a>
+                        </div>
+                        <div class="column">
+                            <h3>Culture & Change</h3>
+                            <a href="{% url 'services' %}">Cultural Transformation</a>
+                            <a href="{% url 'services' %}">Change Management</a>
+                            <a href="{% url 'services' %}">Employee Engagement</a>
+                            <a href="{% url 'services' %}">Employee Engagement</a>
+                            <a href="{% url 'services' %}">HR Policies & Procedures</a>
+                        </div>
+                        <div class="column">
+                            <h3>Events & Training</h3>
+                            <a href="{% url 'events:event_list' %}">Upcoming Webinars</a>
+                            <a href="{% url 'events:event_list' %}">Workshops</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="{% url 'insights:article_list' %}" class="dropbtn">Insights</a>
+                    <div class="dropdown-content mega-menu">
+                        <div class="column">
+                            <h3>Latest Thinking</h3>
+                            <a href="{% url 'insights:article_list' %}">This Week in Leadership</a>
+                            <a href="{% url 'insights:article_list' %}">Briefings Magazine</a>
+                            <a href="{% url 'insights:article_list' %}">Research & Reports</a>
+                        </div>
+                        <div class="column">
+                            <h3>Resources</h3>
+                            <a href="{% url 'insights:resource_list' %}">Resource Center</a>
+                            <a href="{% url 'insights:resource_list' %}">Templates & Tools</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="{% url 'careers:job_list' %}" class="dropbtn">Careers</a>
+                    <div class="dropdown-content mega-menu">
+                        <div class="column">
+                            <h3>Job Cleaners</h3>
+                            <a href="{% url 'careers:job_list' %}">Search Jobs</a>
+                            <a href="{% url 'careers:job_list' %}">Submit Resume</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'contact' %}" class="btn-nav">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'portal:login' %}" class="btn-nav btn-outline" style="margin-left: 0.5rem;"><i
+                            class="fas fa-lock"></i> Client Portal</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h3>Our Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'service_detail' 'leadership-development' %}">Leadership Development</a>
+                        </li>
+                        <li><a href="{% url 'services' %}">Talent Acquisition</a></li>
+                        <li><a href="{% url 'services' %}">Cultural Transformation</a></li>
+                        <li><a href="{% url 'services' %}">Performance Management</a></li>
+                        <li><a href="{% url 'services' %}">Employee Engagement</a></li>
+                        <li><a href="{% url 'services' %}">Strategic Planning</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                        <li><a href="{% url 'insights:article_list' %}">Insights</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                        <li><a href="{% url 'feedback' %}">Leave Feedback</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Careers</h3>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'careers:job_list' %}">Jobs</a></li>
+                        <li><a href="{% url 'careers:job_list' %}">Work With Us</a></li>
+                        <li><a href="#">Advance Your Career</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <p class="footer-address">27 Ridgeway South, Highlands<br>Harare, Zimbabwe</p>
+                    <p class="footer-phone">+263 77 303 9810<br>+263 77 303 2000</p>
+                    <p class="footer-email">info@strategicsynergy.co.zw</p>
+                    <p class="footer-hours">Mon-Fri 09:00 - 17:00</p>
+                </div>
+
+                <div class="footer-col" style="min-width: 300px;">
+                    <h3>Stay Updated</h3>
+                    <p style="margin-bottom: 1rem; color: #ccc; font-size: 0.9rem;">Subscribe to our newsletter for the
+                        latest HR insights.</p>
+                    <form action="{% url 'newsletter_signup' %}" method="POST" class="newsletter-form">
+                        {% csrf_token %}
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="email" name="email" placeholder="Your email address" required
+                                style="flex: 1; padding: 0.8rem; border-radius: 5px; border: none;">
+                            <button type="submit" class="btn"
+                                style="padding: 0.8rem 1.2rem; margin: 0;">Subscribe</button>
+                        </div>
+                    </form>
+
+                    <h3 style="margin-top: 2rem;">Connect</h3>
+                    <div class="social-links-footer">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <div class="footer-tagline">
+                        <p><em>Synchronizing strategy and talent to drive superior performance.</em></p>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; {% now "Y" %} Strategic Synergy Consultancy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    </footer>
+
+    <!-- Live Chat Mockup -->
+    <div class="chat-widget-btn" onclick="alert('Live Chat Integration: This would open Tawk.to or Intercom widget.')">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+    <style>
+        .chat-widget-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-widget-btn:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</body>
+
+</html>

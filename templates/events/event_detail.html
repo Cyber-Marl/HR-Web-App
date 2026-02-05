@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <a href="{% url 'events:event_list' %}" class="back-link">&larr; Back to Events</a>
+
+        <div class="job-header" style="margin-top: 2rem;">
+            <h1>{{ event.title }}</h1>
+            <div class="meta">
+                <span><i class="far fa-calendar"></i> {{ event.start_time|date:"l, F j, Y" }}</span>
+                <span><i class="far fa-clock"></i> {{ event.start_time|time:"H:i" }} - {{ event.end_time|time:"H:i"
+                    }}</span>
+                <span><i class="fas fa-map-marker-alt"></i> {{ event.location }}</span>
+            </div>
+        </div>
+
+        <div class="split-layout">
+            <div class="job-content">
+                {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}"
+                    style="width: 100%; border-radius: 10px; margin-bottom: 2rem;">
+                {% endif %}
+
+                <h3>About This Event</h3>
+                <p>{{ event.description|linebreaks }}</p>
+            </div>
+
+            <div class="job-sidebar">
+                <div class="card">
+                    <h3>Register Now</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number (Optional)</label>
+                            <input type="tel" name="phone">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm Registration</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

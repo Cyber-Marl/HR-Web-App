@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1 class="fade-in">Our Expertise</h1>
+        <p class="fade-in" style="animation-delay: 0.2s">Comprehensive HR solutions tailored to your unique challenges.
+        </p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="services-list">
+            <div class="service-item">
+                <div class="service-icon">📊</div>
+                <div class="service-content">
+                    <h3>Strategic HR Planning</h3>
+                    <p>Aligning your HR strategies with your business goals to drive growth and efficiency. We help you
+                        forecast needs and deploy resources effectively.</p>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">🔍</div>
+                <div class="service-content">
+                    <h3>Talent Acquisition</h3>
+                    <p>Finding the right people for the right roles. Our recruitment strategies ensure you attract top
+                        talent that fits your culture.</p>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">📈</div>
+                <div class="service-content">
+                    <h3>Performance Management</h3>
+                    <p>Designing systems that motivate employees and track progress. We help you build a
+                        high-performance culture.</p>
+                </div>
+            </div>
+
+            <div class="service-item">
+                <div class="service-icon">🎓</div>
+                <div class="service-content">
+                    <h3>Learning & Development</h3>
+                    <p>Customized training programs to upskill your workforce and prepare future leaders.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section cta-section">
+    <div class="container text-center">
+        <h2>Ready to Optimize Your Workforce?</h2>
+        <p>Let's discuss how we can help you achieve your business objectives.</p>
+        <a href="{% url 'contact' %}" class="btn btn-primary mt-2">Contact Us Today</a>
+    </div>
+</section>
+{% endblock %}

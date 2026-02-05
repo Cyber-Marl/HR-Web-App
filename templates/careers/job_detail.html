@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <a href="{% url 'careers:job_list' %}"
+            style="color: var(--accent); text-decoration: none; display: inline-block; margin-bottom: 1rem;">&larr; Back
+            to Jobs</a>
+        <h1>{{ job.title }}</h1>
+        <p>{{ job.location }} &bull; {{ job.get_job_type_display }}</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="job-layout two-column-layout">
+            <div class="job-details">
+                <div class="card">
+                    <h3>Description</h3>
+                    <p>{{ job.description|linebreaks }}</p>
+
+                    <h3 style="margin-top: 2rem;">Requirements</h3>
+                    <p>{{ job.requirements|linebreaks }}</p>
+                </div>
+            </div>
+
+            <div class="job-application">
+                <div class="card contact-form-wrapper" style="position: sticky; top: 100px;">
+                    <h3>Apply Now</h3>
+                    <form action="{% url 'careers:apply_job' job.id %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" name="full_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label>LinkedIn URL (Optional)</label>
+                            <input type="url" name="linkedin_url">
+                        </div>
+                        <div class="form-group">
+                            <label>Resume (PDF/DOC)</label>
+                            <input type="file" name="resume" accept=".pdf,.doc,.docx" required
+                                style="padding: 0.5rem; background: transparent; border: none;">
+                        </div>
+                        <div class="form-group">
+                            <label>Cover Letter (Optional)</label>
+                            <textarea name="cover_letter" rows="4"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .job-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .job-layout {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .job-meta {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        display: flex;
+        gap: 1rem;
+    }
+</style>
+{% endblock %}
