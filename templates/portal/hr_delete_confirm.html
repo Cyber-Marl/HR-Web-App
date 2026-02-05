@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Delete {{ type }}</h1>
+        <p><a href="{% url 'portal:hr_dashboard' %}" style="color: white; text-decoration: underline;">&larr; Back to
+                Dashboard</a></p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div style="max-width: 600px; margin: 0 auto;">
+            <div class="card">
+                <h3>Confirm Deletion</h3>
+                <p>Are you sure you want to delete the {{ type|lower }} <strong>"{{ item }}"</strong>? This action
+                    cannot be undone.</p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-actions" style="margin-top: 2rem;">
+                        <button type="submit" class="btn btn-primary"
+                            style="background-color: #dc3545; border-color: #dc3545;">Yes, Delete</button>
+                        <a href="{% url 'portal:hr_dashboard' %}" class="btn btn-outline">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .card {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        text-align: center;
+    }
+
+    h3 {
+        color: var(--secondary);
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}

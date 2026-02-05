@@ -1,0 +1,404 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>HR Manager Dashboard</h1>
+        <p>Manage jobs, insights, and resources.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container-fluid">
+        <div class="dashboard-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-user-tie"></i> {{ request.user.username|title }}</h3>
+                    <p class="user-role">HR Manager</p>
+                </div>
+
+                <div class="sidebar-section">
+                    <h4>Quick Actions</h4>
+                    <nav class="sidebar-nav">
+                        <a href="{% url 'portal:hr_add_job' %}" class="nav-link"><i class="fas fa-briefcase"></i> Add
+                            Job</a>
+                        <a href="{% url 'portal:hr_add_article' %}" class="nav-link"><i class="fas fa-newspaper"></i>
+                            Add Article</a>
+                        <a href="{% url 'portal:hr_add_resource' %}" class="nav-link"><i class="fas fa-file-alt"></i>
+                            Add Resource</a>
+                        <a href="{% url 'portal:hr_all_applications' %}" class="nav-link"><i class="fas fa-users"></i>
+                            All Applications</a>
+                        <form method="post" action="{% url 'portal:logout' %}" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link logout-link"
+                                style="width: 100%; text-align: left; background: none; border: none; cursor: pointer; font-family: inherit; font-size: inherit;">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </button>
+                        </form>
+                    </nav>
+                </div>
+
+                <div class="sidebar-section">
+                    <h4>Statistics</h4>
+                    <div class="stat-card">
+                        <div class="stat-number">{{ jobs.count }}</div>
+                        <div class="stat-label">Active Jobs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{ articles.count }}</div>
+                        <div class="stat-label">Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{ resources.count }}</div>
+                        <div class="stat-label">Resources</div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content-dashboard">
+                <div class="content-section">
+                    <h2>Jobs</h2>
+                    {% if jobs %}
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Location</th>
+                                    <th>Posted/Deadline</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for job_data in jobs_data %}
+                                <tr>
+                                    <td>{{ job_data.title }}</td>
+                                    <td>{{ job_data.location }}</td>
+                                    <td>
+                                        <small>Posted: {{ job_data.posted_at }}</small><br>
+                                        {% if job_data.has_deadline %}
+                                        <small style="color: #dc3545;">Deadline: {{ job_data.deadline }}</small>
+                                        {% else %}
+                                        <small style="color: #999;">Deadline: None</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'portal:hr_job_applications' job_data.id %}" class="action-link"
+                                            title="View Applications"><i class="fas fa-users"></i></a>
+                                        <a href="{% url 'portal:hr_edit_job' job_data.id %}" class="action-link"
+                                            title="Edit"><i class="fas fa-edit"></i></a>
+                                        <a href="{% url 'portal:hr_delete_job' job_data.id %}"
+                                            class="action-link delete" title="Delete"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="empty-state">No jobs posted yet.</p>
+                    {% endif %}
+                </div>
+
+                <div class="content-grid">
+                    <!-- Articles -->
+                    <div class="content-section">
+                        <h2>Articles</h2>
+                        {% if articles %}
+                        <ul class="list-group">
+                            {% for article in articles %}
+                            <li class="list-item">
+                                <span class="title">{{ article.title }}</span>
+                                <div class="actions">
+                                    <span class="meta">{{ article.created_at|date:"M d" }}</span>
+                                    <a href="{% url 'portal:hr_edit_article' article.id %}" class="action-link"
+                                        title="Edit"><i class="fas fa-edit"></i></a>
+                                    <a href="{% url 'portal:hr_delete_article' article.id %}" class="action-link delete"
+                                        title="Delete"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="empty-state">No articles found.</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Resources -->
+                    <div class="content-section">
+                        <h2>Resources</h2>
+                        {% if resources %}
+                        <ul class="list-group">
+                            {% for resource in resources %}
+                            <li class="list-item">
+                                <span class="title">{{ resource.title }}</span>
+                                <div class="actions">
+                                    <span class="meta">{{ resource.resource_type }}</span>
+                                    <a href="{% url 'portal:hr_edit_resource' resource.id %}" class="action-link"
+                                        title="Edit"><i class="fas fa-edit"></i></a>
+                                    <a href="{% url 'portal:hr_delete_resource' resource.id %}"
+                                        class="action-link delete" title="Delete"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="empty-state">No resources found.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+
+<style>
+    .container-fluid {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .dashboard-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .sidebar {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        height: fit-content;
+        position: sticky;
+        top: 2rem;
+    }
+
+    .sidebar-section {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .sidebar-section:last-child {
+        border-bottom: none;
+    }
+
+    .sidebar-section h3 {
+        color: var(--primary);
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .user-role {
+        color: #666;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+    .sidebar-section h4 {
+        color: var(--secondary);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 1rem;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .sidebar-nav .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #333;
+        transition: all 0.2s;
+    }
+
+    .sidebar-nav .nav-link:hover {
+        background: var(--primary);
+        color: white;
+    }
+
+    .sidebar-nav .nav-link i {
+        font-size: 1rem;
+        width: 20px;
+    }
+
+    .sidebar-nav .logout-link {
+        border-top: 1px solid #eee;
+        margin-top: 0.5rem;
+        padding-top: 1rem;
+        color: #dc3545;
+    }
+
+    .sidebar-nav .logout-link:hover {
+        background: #dc3545;
+        color: white;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 0.75rem;
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+
+    .stat-label {
+        font-size: 0.85rem;
+        opacity: 0.9;
+    }
+
+    .main-content-dashboard {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .content-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .content-section h2 {
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 0.75rem;
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 2rem;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .data-table th,
+    .data-table td {
+        text-align: left;
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+        color: #333;
+    }
+
+    .data-table th {
+        font-weight: 600;
+        color: var(--secondary, #333);
+        background-color: #f9f9f9;
+    }
+
+    .data-table tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    .list-group {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #eee;
+        color: #333;
+    }
+
+    .list-item:last-child {
+        border-bottom: none;
+    }
+
+    .list-item .title {
+        font-weight: 500;
+    }
+
+    .list-item .actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .list-item .meta {
+        color: #888;
+        font-size: 0.9rem;
+        margin-right: 0.5rem;
+    }
+
+    .action-link {
+        color: var(--primary);
+        margin-left: 0.5rem;
+        font-size: 1.1rem;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .action-link:hover {
+        color: var(--secondary);
+        transform: scale(1.1);
+    }
+
+    .action-link.delete {
+        color: #dc3545;
+    }
+
+    .action-link.delete:hover {
+        color: #bd2130;
+    }
+
+    .empty-state {
+        text-align: center;
+        color: #999;
+        padding: 2rem;
+        font-style: italic;
+    }
+
+    @media (max-width: 968px) {
+        .dashboard-layout {
+            grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+            position: static;
+        }
+
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

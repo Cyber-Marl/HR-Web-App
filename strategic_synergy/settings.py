@@ -67,6 +67,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'portal_extras': 'portal.templatetags.portal_extras',
+            }
         },
     },
 ]
@@ -128,3 +131,28 @@ STATICFILES_DIRS = [
 # Media files (Resumes, User uploads)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Session Configuration
+# Session expires after 30 minutes of inactivity
+SESSION_COOKIE_AGE = 1800  # 30 minutes in seconds
+SESSION_SAVE_EVERY_REQUEST = True  # Refresh session on every request
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Clear session when browser closes
+SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access to session cookie
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_SAMESITE = 'Lax'  # CSRF protection
+
+# Email Configuration
+# For development: emails will be printed to console
+# For production: configure SMTP settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@strategicsynergy.co.zw'
+
+# For production, uncomment and configure:
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-app-password'
+
+

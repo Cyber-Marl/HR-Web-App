@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="section" style="min-height: 80vh; display: flex; align-items: center;">
+    <div class="container" style="max-width: 500px;">
+        <div class="card" style="padding: 3rem;">
+            <h1 style="text-align: center; margin-bottom: 2rem;">Create Account</h1>
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="id_username" style="display: block; margin-bottom: 0.5rem;">Username</label>
+                    {{ form.username }}
+                    <small style="color: #666; font-size: 0.875rem; display: block;">Required. 150 characters or fewer.
+                        Letters, digits and @/./+/-/_ only.</small>
+                    {% for error in form.username.errors %}
+                    <small style="color: #dc3545; display: block;">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="id_email" style="display: block; margin-bottom: 0.5rem;">Email</label>
+                    {{ form.email }}
+                    <small style="color: #666; font-size: 0.875rem; display: block;">Required. Enter a valid email
+                        address.</small>
+                    {% for error in form.email.errors %}
+                    <small style="color: #dc3545; display: block;">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="id_password1" style="display: block; margin-bottom: 0.5rem;">Password</label>
+                    {{ form.password1 }}
+                    <small style="color: #666; font-size: 0.875rem; display: block;">
+                        • At least 8 characters<br>
+                        • Can't be too similar to your other info<br>
+                        • Can't be a commonly used password<br>
+                        • Can't be entirely numeric
+                    </small>
+                    {% for error in form.password1.errors %}
+                    <small style="color: #dc3545; display: block;">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="id_password2" style="display: block; margin-bottom: 0.5rem;">Confirm Password</label>
+                    {{ form.password2 }}
+                    <small style="color: #666; font-size: 0.875rem; display: block;">Enter the same password as before,
+                        for verification.</small>
+                    {% for error in form.password2.errors %}
+                    <small style="color: #dc3545; display: block;">{{ error }}</small>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%; justify-content: center;">Register <i
+                        class="fas fa-user-plus"></i></button>
+            </form>
+            <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                <p>Already have an account? <a href="{% url 'portal:login' %}" style="color: var(--primary);">Login
+                        here</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        font-family: inherit;
+        font-size: 1rem;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--primary);
+    }
+</style>
+{% endblock %}

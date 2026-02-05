@@ -5,7 +5,7 @@
 <section class="section" style="min-height: 80vh; display: flex; align-items: center;">
     <div class="container" style="max-width: 500px;">
         <div class="card" style="padding: 3rem;">
-            <h1 style="text-align: center; margin-bottom: 2rem;">Client Portal</h1>
+            <h1 style="text-align: center; margin-bottom: 2rem;">Portal Login</h1>
             <form method="post">
                 {% csrf_token %}
                 <div class="form-group" style="margin-bottom: 1.5rem;">
@@ -21,8 +21,18 @@
                 <button type="submit" class="btn" style="width: 100%; justify-content: center;">Secure Login <i
                         class="fas fa-lock"></i></button>
             </form>
-            <div style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
-                <p>Protected area for authorized clients only.</p>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <a href="{% url 'portal:password_reset' %}"
+                    style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">Forgot Password?</a>
+            </div>
+            <div style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">New client?</p>
+                <a href="{% url 'portal:register' %}" class="btn"
+                    style="width: 100%; justify-content: center; background: white; color: var(--primary); border: 2px solid var(--primary);">Create
+                    Account</a>
+            </div>
+            <div style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+                <p>For clients and HR managers. Secure access only.</p>
             </div>
         </div>
     </div>
