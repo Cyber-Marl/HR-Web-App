@@ -2,7 +2,15 @@
 {% load static %}
 
 {% block content %}
-<section class="page-header">
+<style>
+    .contact-header {
+        background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)),
+        url("{% static 'img/20180622_140530.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+<section class="page-header contact-header">
     <div class="container">
         <h1 class="fade-in">Get in Touch</h1>
         <p class="fade-in" style="animation-delay: 0.2s">Let's build a better future for your organization, together.

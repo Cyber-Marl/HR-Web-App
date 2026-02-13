@@ -1,0 +1,293 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{{ program.title }}</h1>
+        <p>{{ program.description }}</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="detail-header">
+            <div class="header-actions">
+                <a href="{% url 'onboarding:add_task' program.id %}" class="btn"><i class="fas fa-plus"></i> Add
+                    Task</a>
+                <a href="{% url 'onboarding:assign_program' program.id %}" class="btn btn-secondary"><i
+                        class="fas fa-user-plus"></i> Assign to Employee</a>
+                <a href="{% url 'onboarding:program_edit' program.id %}" class="btn btn-outline"><i
+                        class="fas fa-edit"></i> Edit Program</a>
+                <a href="{% url 'onboarding:program_list' %}" class="btn btn-outline"><i class="fas fa-arrow-left"></i>
+                    All Programs</a>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+            <!-- Tasks Section -->
+            <div class="detail-card">
+                <h2><i class="fas fa-tasks"></i> Tasks ({{ tasks|length }})</h2>
+                {% if tasks %}
+                <div class="task-list">
+                    {% for task in tasks %}
+                    <div class="task-item">
+                        <div class="task-order">{{ task.order }}</div>
+                        <div class="task-info">
+                            <h4>{{ task.title }}</h4>
+                            {% if task.description %}
+                            <p>{{ task.description }}</p>
+                            {% endif %}
+                            <div class="task-badges">
+                                <span class="task-type-badge">{{ task.task_type }}</span>
+                                {% if task.is_required %}
+                                <span class="task-required-badge">Required</span>
+                                {% else %}
+                                <span class="task-optional-badge">Optional</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="empty-msg">No tasks added yet. <a href="{% url 'onboarding:add_task' program.id %}">Add the
+                        first task</a>.</p>
+                {% endif %}
+            </div>
+
+            <!-- Assignments Section -->
+            <div class="detail-card">
+                <h2><i class="fas fa-users"></i> Assigned Employees ({{ assignments|length }})</h2>
+                {% if assignments %}
+                <div class="assignment-list">
+                    {% for assignment in assignments %}
+                    <div class="assignment-item">
+                        <div class="assignment-info">
+                            <h4>{{ assignment.employee_name }}</h4>
+                            <small>Assigned: {{ assignment.assigned_at }} | Due: {{ assignment.due_date }}</small>
+                        </div>
+                        <div class="assignment-progress">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" style="width: {{ assignment.progress }}%"></div>
+                            </div>
+                            <span class="progress-text">{{ assignment.completed_count }}/{{ assignment.total_tasks }}
+                                ({{ assignment.progress }}%)</span>
+                        </div>
+                        <div class="assignment-status">
+                            {% if assignment.is_completed %}
+                            <span class="badge badge-active"><i class="fas fa-check"></i> Completed</span>
+                            {% else %}
+                            <span class="badge badge-pending">In Progress</span>
+                            {% endif %}
+                        </div>
+                        <a href="{% url 'onboarding:assignment_progress' assignment.id %}" class="btn btn-sm">View
+                            Progress</a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="empty-msg">No employees assigned yet. <a
+                        href="{% url 'onboarding:assign_program' program.id %}">Assign someone</a>.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .detail-header {
+        margin-bottom: 2rem;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-secondary {
+        background: var(--secondary);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: opacity 0.2s;
+    }
+
+    .btn-secondary:hover {
+        opacity: 0.9;
+    }
+
+    .detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    .detail-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .detail-card h2 {
+        color: var(--primary);
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .detail-card h2 i {
+        margin-right: 0.5rem;
+    }
+
+    .task-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .task-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .task-order {
+        width: 35px;
+        height: 35px;
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+    }
+
+    .task-info h4 {
+        margin: 0 0 0.25rem;
+        color: #333;
+    }
+
+    .task-info p {
+        margin: 0 0 0.5rem;
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .task-badges {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .task-type-badge {
+        background: #e8f0fe;
+        color: #1967d2;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .task-required-badge {
+        background: #fce8e6;
+        color: #c5221f;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .task-optional-badge {
+        background: #e6f4ea;
+        color: #137333;
+        padding: 0.15rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .assignment-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .assignment-item {
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .assignment-info h4 {
+        margin: 0;
+        color: #333;
+    }
+
+    .assignment-info small {
+        color: #888;
+    }
+
+    .progress-bar-container {
+        height: 8px;
+        background: #e9ecef;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .progress-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+
+    .progress-text {
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.25rem;
+    }
+
+    .badge-pending {
+        background: #fff3cd;
+        color: #856404;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    .empty-msg {
+        color: #888;
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+
+    .empty-msg a {
+        color: var(--primary);
+    }
+
+    @media (max-width: 968px) {
+        .detail-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}

@@ -2,7 +2,15 @@
 {% load static %}
 
 {% block content %}
-<section class="page-header">
+<style>
+    .resources-header {
+        background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)),
+        url("{% static 'img/20190223_150424_800x450.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+<section class="page-header resources-header">
     <div class="container">
         <h1>Resource Center</h1>
         <p>Essential templates, checklists, and guides to empower your HR strategy.</p>

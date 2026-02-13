@@ -50,4 +50,7 @@ urlpatterns = [
     path('hr-dashboard/add-resource/', views.hr_add_resource, name='hr_add_resource'),
     path('hr-dashboard/edit-resource/<int:resource_id>/', views.hr_edit_resource, name='hr_edit_resource'),
     path('hr-dashboard/delete-resource/<int:resource_id>/', views.hr_delete_resource, name='hr_delete_resource'),
+
+    # Analytics
+    path('hr-dashboard/analytics/', views.hr_analytics, name='hr_analytics'),
 ]

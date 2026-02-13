@@ -2,7 +2,15 @@
 {% load static %}
 
 {% block content %}
-<section class="page-header">
+<style>
+    .insights-header {
+        background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)),
+        url("{% static 'img/20180915_092327.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+<section class="page-header insights-header">
     <div class="container">
         <h1>Strategic Insights</h1>
         <p>Expert perspectives on leadership, culture, and the future of work.</p>

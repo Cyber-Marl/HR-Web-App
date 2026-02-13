@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header gallery-header"
+    style="background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)), url('{% static "
+    img/20190223_155212_800x450.jpg" %}'); background-size: cover; background-position: center;">
+    <div class="container">
+        <h1 class="fade-in">Our Gallery</h1>
+        <p class="fade-in" style="animation-delay: 0.2s">Moments that define our journey — workshops, team building, and
+            transformative experiences.</p>
+        <div class="gallery-filters">
+            <button class="gallery-filter-btn active" onclick="filterGallery('all')">All</button>
+            <button class="gallery-filter-btn" onclick="filterGallery('workshops')">Workshops</button>
+            <button class="gallery-filter-btn" onclick="filterGallery('teambuilding')">Team Building</button>
+            <button class="gallery-filter-btn" onclick="filterGallery('training')">Training</button>
+            <button class="gallery-filter-btn" onclick="filterGallery('ceremonies')">Ceremonies</button>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="gallery-grid">
+            <!-- Workshops -->
+            <div class="gallery-item" data-category="workshops" onclick="openLightbox(this)">
+                <img src="{% static 'img/20190223_100941_800x450.jpg' %}" alt="Workshop session" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Corporate Workshop</h4>
+                    <p>Interactive learning session</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="workshops" onclick="openLightbox(this)">
+                <img src="{% static 'img/20180622_123850.jpg' %}" alt="Strategy workshop" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Strategy Workshop</h4>
+                    <p>Strategic planning session</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="workshops" onclick="openLightbox(this)">
+                <img src="{% static 'img/20180622_140530.jpg' %}" alt="Team workshop" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Team Workshop</h4>
+                    <p>Collaborative problem solving</p>
+                </div>
+            </div>
+
+            <!-- Team Building -->
+            <div class="gallery-item" data-category="teambuilding" onclick="openLightbox(this)">
+                <img src="{% static 'img/20190223_155009_800x450.jpg' %}" alt="Team building circle" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Team Building</h4>
+                    <p>Building stronger teams together</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="teambuilding" onclick="openLightbox(this)">
+                <img src="{% static 'img/20190223_155212_800x450.jpg' %}" alt="Team huddle by lake" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Outdoor Team Activities</h4>
+                    <p>Scenic team building retreat</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="teambuilding" onclick="openLightbox(this)">
+                <img src="{% static 'img/20190223_155253_800x450.jpg' %}" alt="Team collaboration" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Team Collaboration</h4>
+                    <p>Working together towards excellence</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="teambuilding" onclick="openLightbox(this)">
+                <img src="{% static 'img/20181002_091430_800x450.jpg' %}" alt="Outdoor team event" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Outdoor Team Event</h4>
+                    <p>Team activities in nature</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="teambuilding" onclick="openLightbox(this)">
+                <img src="{% static 'img/20220716_114327.jpg' %}" alt="Team building garden" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Team Retreat</h4>
+                    <p>Corporate team retreat</p>
+                </div>
+            </div>
+
+            <!-- Training -->
+            <div class="gallery-item" data-category="training" onclick="openLightbox(this)">
+                <img src="{% static 'img/20180324_114229.jpg' %}" alt="Training session" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Leadership Training</h4>
+                    <p>Developing future leaders</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="training" onclick="openLightbox(this)">
+                <img src="{% static 'img/20180915_083303.jpg' %}" alt="Professional development" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Professional Development</h4>
+                    <p>Skills enhancement programme</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="training" onclick="openLightbox(this)">
+                <img src="{% static 'img/20181002_122539.jpg' %}" alt="Group training" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Group Training</h4>
+                    <p>Interactive group learning</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="training" onclick="openLightbox(this)">
+                <img src="{% static 'img/20191001_092327.jpg' %}" alt="Corporate training" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Corporate Training</h4>
+                    <p>Upskilling the workforce</p>
+                </div>
+            </div>
+
+            <!-- Ceremonies -->
+            <div class="gallery-item" data-category="ceremonies" onclick="openLightbox(this)">
+                <img src="{% static 'img/20170729_134616_800x450.jpg' %}" alt="Certificate ceremony" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Certificate Ceremony</h4>
+                    <p>Celebrating achievements</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="ceremonies" onclick="openLightbox(this)">
+                <img src="{% static 'img/20181005_124606.jpg' %}" alt="Awards presentation" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Awards Presentation</h4>
+                    <p>Recognizing excellence</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="ceremonies" onclick="openLightbox(this)">
+                <img src="{% static 'img/20221117_112421.jpg' %}" alt="Recognition event" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Recognition Event</h4>
+                    <p>Honouring outstanding contributions</p>
+                </div>
+            </div>
+
+            <!-- More Team Building -->
+            <div class="gallery-item" data-category="teambuilding" onclick="openLightbox(this)">
+                <img src="{% static 'img/20180324_121720.jpg' %}" alt="Team exercises" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Team Exercises</h4>
+                    <p>Strengthening team bonds</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="workshops" onclick="openLightbox(this)">
+                <img src="{% static 'img/20180915_092327.jpg' %}" alt="Workshop facilitation" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Workshop Facilitation</h4>
+                    <p>Expert-led workshop sessions</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="training" onclick="openLightbox(this)">
+                <img src="{% static 'img/20190603_110442.jpg' %}" alt="Coaching session" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Executive Coaching</h4>
+                    <p>One-on-one leadership coaching</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="teambuilding" onclick="openLightbox(this)">
+                <img src="{% static 'img/20220716_115522.jpg' %}" alt="Team outdoor event" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Outdoor Activities</h4>
+                    <p>Team bonding experiences</p>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="ceremonies" onclick="openLightbox(this)">
+                <img src="{% static 'img/20230124_121121.jpg' %}" alt="Corporate event" loading="lazy">
+                <div class="gallery-overlay">
+                    <h4>Corporate Event</h4>
+                    <p>Celebrating milestones</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" src="" alt="Gallery image">
+</div>
+
+<script>
+    function filterGallery(category) {
+        const items = document.querySelectorAll('.gallery-item');
+        const buttons = document.querySelectorAll('.gallery-filter-btn');
+
+        buttons.forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+
+        items.forEach(item => {
+            if (category === 'all' || item.dataset.category === category) {
+                item.style.display = 'block';
+                item.style.animation = 'fadeIn 0.5s ease-out forwards';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function openLightbox(element) {
+        const img = element.querySelector('img');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        const lightbox = document.getElementById('lightbox');
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Close lightbox on background click
+    document.getElementById('lightbox').addEventListener('click', function (e) {
+        if (e.target === this) closeLightbox();
+    });
+
+    // Close lightbox on Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeLightbox();
+    });
+</script>
+{% endblock %}

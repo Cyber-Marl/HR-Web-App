@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Onboarding Programs</h1>
+        <p>Manage employee onboarding checklists and programs.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="onboarding-header">
+            <a href="{% url 'onboarding:program_create' %}" class="btn"><i class="fas fa-plus"></i> Create Program</a>
+            <a href="{% url 'portal:hr_dashboard' %}" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to
+                Dashboard</a>
+        </div>
+
+        {% if programs %}
+        <div class="programs-grid">
+            {% for program in programs %}
+            <div class="program-card {% if not program.is_active %}inactive{% endif %}">
+                <div class="program-card-header">
+                    <h3>{{ program.title }}</h3>
+                    {% if not program.is_active %}
+                    <span class="badge badge-inactive">Inactive</span>
+                    {% else %}
+                    <span class="badge badge-active">Active</span>
+                    {% endif %}
+                </div>
+                <p class="program-desc">{{ program.description|truncatewords:25 }}</p>
+                <div class="program-stats">
+                    <div class="program-stat">
+                        <i class="fas fa-tasks"></i>
+                        <span>{{ program.task_count }} Tasks</span>
+                    </div>
+                    <div class="program-stat">
+                        <i class="fas fa-users"></i>
+                        <span>{{ program.assignment_count }} Assigned</span>
+                    </div>
+                </div>
+                <div class="program-meta">
+                    <small>Created {{ program.created_at }}</small>
+                </div>
+                <div class="program-actions">
+                    <a href="{% url 'onboarding:program_detail' program.id %}" class="btn btn-sm">View Details</a>
+                    <a href="{% url 'onboarding:program_edit' program.id %}" class="btn btn-sm btn-outline">Edit</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state-card">
+            <i class="fas fa-clipboard-list"></i>
+            <h3>No Programs Yet</h3>
+            <p>Create your first onboarding program to get started.</p>
+            <a href="{% url 'onboarding:program_create' %}" class="btn">Create Program</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    .onboarding-header {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .programs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .program-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        border-left: 4px solid var(--primary);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .program-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .program-card.inactive {
+        border-left-color: #ccc;
+        opacity: 0.7;
+    }
+
+    .program-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.75rem;
+    }
+
+    .program-card-header h3 {
+        color: var(--primary);
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    .badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .badge-active {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .badge-inactive {
+        background: #f8d7da;
+        color: #721c24;
+    }
+
+    .program-desc {
+        color: #666;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+    }
+
+    .program-stats {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .program-stat {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #555;
+        font-size: 0.9rem;
+    }
+
+    .program-stat i {
+        color: var(--primary);
+    }
+
+    .program-meta {
+        padding-top: 0.75rem;
+        border-top: 1px solid #eee;
+        margin-bottom: 1rem;
+    }
+
+    .program-meta small {
+        color: #999;
+    }
+
+    .program-actions {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .btn-sm {
+        padding: 0.4rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .empty-state-card {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .empty-state-card i {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+
+    .empty-state-card h3 {
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state-card p {
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+</style>
+{% endblock %}

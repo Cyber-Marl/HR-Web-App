@@ -70,7 +70,10 @@ def hr_add_job(request):
     if request.method == 'POST':
         form = JobForm(request.POST)
         if form.is_valid():
-            form.save()
+            job = form.save()
+            # Notify newsletter subscribers about the new job
+            from core.notifications import send_new_job_notification
+            send_new_job_notification(job)
             return redirect('portal:hr_dashboard')
     else:
         form = JobForm()
@@ -122,11 +125,27 @@ def hr_job_applications(request, job_id):
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
     
+    # Pre-format application data to avoid template rendering issues
+    apps_data = []
+    for app in page_obj:
+        apps_data.append({
+            'id': app.id,
+            'full_name': app.full_name,
+            'email': app.email,
+            'phone': app.phone,
+            'job_title': app.job.title if app.job else 'No Job',
+            'applied_at': app.applied_at.strftime('%b %d, %Y'),
+            'rating': app.rating,
+            'status': app.status,
+            'resume_url': app.resume.url if app.resume else '#',
+            'notes': app.notes,
+        })
+    
     # Get all jobs for filter dropdown
     all_jobs = Job.objects.filter(is_active=True)
     
     context = {
-        'applications': page_obj,
+        'applications': apps_data,
         'page_obj': page_obj,
         'stats': stats,
         'apps_by_job': [],  # Empty for single job view
@@ -211,11 +230,27 @@ def hr_all_applications(request):
     page_number = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_number)
     
+    # Pre-format application data
+    apps_data = []
+    for app in page_obj:
+        apps_data.append({
+            'id': app.id,
+            'full_name': app.full_name,
+            'email': app.email,
+            'phone': app.phone,
+            'job_title': app.job.title if app.job else 'No Job',
+            'applied_at': app.applied_at.strftime('%b %d, %Y'),
+            'rating': app.rating,
+            'status': app.status,
+            'resume_url': app.resume.url if app.resume else '#',
+            'notes': app.notes,
+        })
+    
     # Get all jobs for filter dropdown
     all_jobs = Job.objects.filter(is_active=True)
     
     context = {
-        'applications': page_obj,
+        'applications': apps_data,
         'page_obj': page_obj,
         'stats': stats,
         'apps_by_job': apps_by_job,
@@ -266,10 +301,14 @@ def hr_update_application_status(request, app_id):
             data = json.loads(request.body)
             status = data.get('status')
             app = get_object_or_404(Application, id=app_id)
+            old_status = app.status
             app.status = status
             app.reviewed_by = request.user
             app.reviewed_at = timezone.now()
             app.save()
+            # Send email notification about status change
+            from core.notifications import send_status_change_notification
+            send_status_change_notification(app, old_status)
             return JsonResponse({'success': True})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)})
@@ -414,3 +453,89 @@ def hr_delete_resource(request, resource_id):
         resource.delete()
         return redirect('portal:hr_dashboard')
     return render(request, 'portal/hr_delete_confirm.html', {'item': resource, 'type': 'Resource'})
+
+
+@login_required
+@user_passes_test(is_hr_manager)
+def hr_analytics(request):
+    """HR Analytics Dashboard with charts and metrics"""
+    from django.db.models import Count, Avg, F
+    from django.db.models.functions import TruncMonth
+    from datetime import datetime, timedelta
+    from django.utils import timezone
+    from core.models import NewsletterSubscriber
+    from events.models import Event, Registration
+    from onboarding.models import OnboardingAssignment
+
+    # Hiring funnel counts
+    funnel = {
+        'pending': Application.objects.filter(status='PENDING').count(),
+        'reviewed': Application.objects.filter(status='REVIEWED').count(),
+        'interview': Application.objects.filter(status='INTERVIEW').count(),
+        'hired': Application.objects.filter(status='HIRED').count(),
+        'rejected': Application.objects.filter(status='REJECTED').count(),
+    }
+
+    # Applications over last 6 months
+    six_months_ago = timezone.now() - timedelta(days=180)
+    timeline_qs = (
+        Application.objects
+        .filter(applied_at__gte=six_months_ago)
+        .annotate(month=TruncMonth('applied_at'))
+        .values('month')
+        .annotate(count=Count('id'))
+        .order_by('month')
+    )
+    timeline = []
+    for item in timeline_qs:
+        timeline.append({
+            'month': item['month'].strftime('%b %Y'),
+            'count': item['count'],
+        })
+    # If no data, provide at least the current month
+    if not timeline:
+        timeline = [{'month': timezone.now().strftime('%b %Y'), 'count': 0}]
+
+    # Top jobs by application count
+    top_jobs = (
+        Job.objects
+        .annotate(app_count=Count('applications'))
+        .order_by('-app_count')[:5]
+    )
+    top_jobs_data = [{'title': j.title, 'app_count': j.app_count} for j in top_jobs]
+
+    # Event registration stats
+    event_stats = (
+        Event.objects
+        .filter(is_active=True)
+        .annotate(reg_count=Count('registrations'))
+        .order_by('-reg_count')[:5]
+    )
+    event_stats_data = [{'title': e.title, 'reg_count': e.reg_count} for e in event_stats]
+
+    # Average time to hire (days from application to hired status)
+    hired_apps = Application.objects.filter(status='HIRED', reviewed_at__isnull=False)
+    if hired_apps.exists():
+        total_days = 0
+        count = 0
+        for app in hired_apps:
+            delta = (app.reviewed_at - app.applied_at).days
+            total_days += delta
+            count += 1
+        avg_time_to_hire = round(total_days / count) if count > 0 else 0
+    else:
+        avg_time_to_hire = 0
+
+    context = {
+        'total_applications': Application.objects.count(),
+        'open_positions': Job.objects.filter(is_active=True).count(),
+        'avg_time_to_hire': avg_time_to_hire,
+        'subscriber_count': NewsletterSubscriber.objects.filter(is_active=True).count(),
+        'total_events': Event.objects.filter(is_active=True).count(),
+        'onboarding_active': OnboardingAssignment.objects.filter(is_completed=False).count(),
+        'funnel': funnel,
+        'timeline': timeline,
+        'top_jobs': top_jobs_data,
+        'event_stats': event_stats_data,
+    }
+    return render(request, 'portal/hr_analytics.html', context)

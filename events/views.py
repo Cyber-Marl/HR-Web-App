@@ -13,7 +13,10 @@ def event_detail(request, event_id):
         email = request.POST.get('email')
         phone = request.POST.get('phone')
         
-        Registration.objects.create(event=event, name=name, email=email, phone=phone)
+        registration = Registration.objects.create(event=event, name=name, email=email, phone=phone)
+        # Send registration confirmation email
+        from core.notifications import send_event_registration_confirmation
+        send_event_registration_confirmation(registration)
         messages.success(request, f"You have successfully registered for {event.title}!")
         return redirect('events:event_list')
 

@@ -128,7 +128,6 @@
                         <tr>
                             <th width="30"><input type="checkbox" id="select-all"></th>
                             <th>Candidate</th>
-                            <th>Job Title</th>
                             <th>Applied</th>
                             <th>Rating</th>
                             <th>Status</th>
@@ -146,8 +145,7 @@
                                     <small>{{ app.phone }}</small>
                                 </div>
                             </td>
-                            <td>{{ app.job.title }}</td>
-                            <td>{{ app.applied_at|date:"M d, Y" }}</td>
+                            <td>{{ app.applied_at }}</td>
                             <td>
                                 <div class="rating-stars" data-app-id="{{ app.id }}" data-rating="{{ app.rating }}">
                                     {% for i in "12345" %}
@@ -166,7 +164,7 @@
                                 </select>
                             </td>
                             <td class="actions-cell">
-                                <a href="{{ app.resume.url }}" target="_blank" class="action-btn" title="View Resume"><i
+                                <a href="{{ app.resume_url }}" target="_blank" class="action-btn" title="View Resume"><i
                                         class="fas fa-file-pdf"></i></a>
                                 <button class="action-btn" onclick="showNotes({{ app.id }}, '{{ app.notes|escapejs }}')"
                                     title="Notes"><i class="fas fa-sticky-note"></i></button>

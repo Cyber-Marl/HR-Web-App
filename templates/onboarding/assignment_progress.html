@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Onboarding Progress</h1>
+        <p>{{ employee_name }} — {{ program_title }}</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container" style="max-width: 900px;">
+        <!-- Progress Summary -->
+        <div class="progress-summary-card">
+            <div class="progress-header">
+                <div>
+                    <h3>{{ employee_name }}</h3>
+                    <p>Program: {{ program_title }}</p>
+                </div>
+                <div class="progress-circle">
+                    <span class="progress-number">{{ progress }}%</span>
+                </div>
+            </div>
+            <div class="progress-bar-lg">
+                <div class="progress-bar-fill-lg" style="width: {{ progress }}%"></div>
+            </div>
+        </div>
+
+        <!-- Task Completions -->
+        <div class="completions-card">
+            <h2>Task Progress</h2>
+            {% for c in completions %}
+            <div class="completion-item {% if c.is_completed %}done{% endif %}">
+                <div class="completion-status">
+                    {% if c.is_completed %}
+                    <i class="fas fa-check-circle" style="color: #28a745; font-size: 1.3rem;"></i>
+                    {% else %}
+                    <i class="far fa-circle" style="color: #ccc; font-size: 1.3rem;"></i>
+                    {% endif %}
+                </div>
+                <div class="completion-info">
+                    <h4>{{ c.task_title }}</h4>
+                    {% if c.task_description %}<p>{{ c.task_description }}</p>{% endif %}
+                    <div class="completion-meta">
+                        <span class="task-type-badge">{{ c.task_type }}</span>
+                        {% if c.is_required %}
+                        <span class="required-badge">Required</span>
+                        {% endif %}
+                        {% if c.completed_at %}
+                        <span class="completed-date"><i class="fas fa-check"></i> {{ c.completed_at }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="back-actions">
+            <a href="{% url 'onboarding:program_detail' assignment.program.id %}" class="btn btn-outline"><i
+                    class="fas fa-arrow-left"></i> Back to Program</a>
+        </div>
+    </div>
+</section>
+
+<style>
+    .progress-summary-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+    }
+
+    .progress-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .progress-header h3 {
+        color: var(--primary);
+        margin: 0;
+    }
+
+    .progress-header p {
+        color: #666;
+        margin: 0.25rem 0 0;
+    }
+
+    .progress-circle {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .progress-number {
+        color: white;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    .progress-bar-lg {
+        height: 12px;
+        background: #e9ecef;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .progress-bar-fill-lg {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), #28a745);
+        border-radius: 6px;
+    }
+
+    .completions-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+    }
+
+    .completions-card h2 {
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .completion-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
+        background: #f8f9fa;
+    }
+
+    .completion-item.done {
+        background: #f0fdf4;
+    }
+
+    .completion-info h4 {
+        margin: 0 0 0.25rem;
+        color: #333;
+    }
+
+    .completion-item.done h4 {
+        text-decoration: line-through;
+        color: #888;
+    }
+
+    .completion-info p {
+        margin: 0 0 0.5rem;
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .completion-meta {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .task-type-badge {
+        background: #e8f0fe;
+        color: #1967d2;
+        padding: 0.1rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .required-badge {
+        background: #fce8e6;
+        color: #c5221f;
+        padding: 0.1rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .completed-date {
+        color: #28a745;
+        font-size: 0.8rem;
+    }
+
+    .back-actions {
+        margin-top: 1rem;
+    }
+</style>
+{% endblock %}

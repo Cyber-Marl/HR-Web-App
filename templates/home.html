@@ -3,24 +3,49 @@
 
 {% block content %}
 <section class="hero">
-    <div class="container hero-container">
-        <div class="hero-content fade-in">
-            <h1 class="hero-title">Empowering Your Workforce <br><span class="highlight">Driving Success</span></h1>
-            <p class="hero-subtitle">Strategic Synergy Consultancy delivers premium HR solutions designed to optimize
-                your organizational performance and culture.</p>
-            <div class="cta-group">
-                <a href="{% url 'contact' %}" class="btn btn-primary">Start Transformation</a>
-                <a href="{% url 'services' %}" class="btn btn-outline">Explore Services</a>
+    <div class="hero-split">
+        <!-- Left: Dark text panel with accent stripe -->
+        <div class="hero-text-panel fade-in">
+            <div class="hero-text-inner">
+                <h1 class="hero-title">Empowering Your<br>Workforce Driving<br>Success</h1>
+                <p class="hero-subtitle">Strategic Synergy Consultancy delivers premium HR solutions designed to
+                    optimize
+                    your organizational performance and culture.</p>
+                <div class="cta-group">
+                    <a href="{% url 'contact' %}" class="btn btn-primary">Start Transformation</a>
+                    <a href="{% url 'services' %}" class="btn btn-outline">Explore Services</a>
+                </div>
             </div>
         </div>
-        <!-- Abstract graphic or 3D element placeholder -->
-        <div class="hero-visual">
-            <div class="hero-image-placeholder"></div>
+        <!-- Right: Full-bleed diagonal image carousel -->
+        <div class="hero-image-panel">
+            <div class="hero-carousel">
+                <div class="carousel-slide active">
+                    <img src="{% static 'img/20190223_155009_800x450.jpg' %}" alt="Team building circle">
+                </div>
+                <div class="carousel-slide">
+                    <img src="{% static 'img/20180622_123850.jpg' %}" alt="Corporate workshop">
+                </div>
+                <div class="carousel-slide">
+                    <img src="{% static 'img/20181002_091430_800x450.jpg' %}" alt="Outdoor team event">
+                </div>
+                <div class="carousel-slide">
+                    <img src="{% static 'img/20190223_100941_800x450.jpg' %}" alt="Training session">
+                </div>
+                <button class="carousel-prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-controls">
+                    <button class="carousel-dot active" aria-label="Slide 1"></button>
+                    <button class="carousel-dot" aria-label="Slide 2"></button>
+                    <button class="carousel-dot" aria-label="Slide 3"></button>
+                    <button class="carousel-dot" aria-label="Slide 4"></button>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<section class="section business-challenges">
+<section class="section business-challenges scroll-animate">
     <div class="container text-center">
         <h2 class="section-title-large">What business challenge are you looking to solve?</h2>
         <div class="challenge-grid">
@@ -50,20 +75,28 @@
 
 </section>
 
-<section class="section trusted-by">
+<section class="section trusted-by scroll-animate">
     <div class="container text-center">
         <p class="section-label">Trusted by industry leaders</p>
         <div class="logo-grid">
-            <div class="client-logo">ACME Corp</div>
-            <div class="client-logo">GlobalTech</div>
-            <div class="client-logo">Nexus Industries</div>
-            <div class="client-logo">Starlight Financial</div>
-            <div class="client-logo">Vanguard Systems</div>
+            <div class="client-logo"><img src="{% static 'img/CAIPF-Logo-74px-x-73.png' %}" alt="CAIPF"></div>
+            <div class="client-logo"><img src="{% static 'img/Nmbz-logo.png' %}" alt="NMBZ"></div>
+            <div class="client-logo"><img src="{% static 'img/PPC_logo_red.png' %}" alt="PPC"></div>
+            <div class="client-logo"><img src="{% static 'img/dairibordlogo-1-1.png' %}" alt="Dairibord"></div>
+            <div class="client-logo"><img src="{% static 'img/kreamorn-logo.png' %}" alt="Kreamorn"></div>
+            <div class="client-logo"><img src="{% static 'img/logo-elephant-hills-l__preview.png' %}"
+                    alt="Elephant Hills"></div>
+            <div class="client-logo"><img src="{% static 'img/petrozim-logo2-1-e1621416170664.png' %}" alt="Petrozim">
+            </div>
+            <div class="client-logo"><img src="{% static 'img/schweppes-logo-clipart-2.png' %}" alt="Schweppes"></div>
+            <div class="client-logo"><img src="{% static 'img/zimplatslogo.png' %}" alt="Zimplats"></div>
+            <div class="client-logo"><img src="{% static 'img/logo1.png' %}" alt="Client"></div>
+            <div class="client-logo"><img src="{% static 'img/logo43.png' %}" alt="Client"></div>
         </div>
     </div>
 </section>
 
-<section class="section mission-statement">
+<section class="section mission-statement scroll-animate">
     <div class="container text-center">
         <div class="mission-content">
             <h2 class="section-title">Our Philosophy</h2>
@@ -79,46 +112,114 @@
     </div>
 </section>
 
-<section class="section impact-stats">
+<section class="section impact-stats scroll-animate">
     <div class="container">
         <div class="grid-4 text-center">
-            <div class="stat-item">
-                <div class="stat-number">500+</div>
+            <div class="stat-item stagger-child">
+                <div class="stat-number counter" data-target="500" data-suffix="+">0</div>
                 <div class="stat-label">Executives Placed</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">98%</div>
+            <div class="stat-item stagger-child">
+                <div class="stat-number counter" data-target="98" data-suffix="%">0</div>
                 <div class="stat-label">Retention Rate</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">50</div>
+            <div class="stat-item stagger-child">
+                <div class="stat-number counter" data-target="50" data-suffix="">0</div>
                 <div class="stat-label">Countries Served</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">10k+</div>
+            <div class="stat-item stagger-child">
+                <div class="stat-number counter" data-target="10000" data-suffix="+">0</div>
                 <div class="stat-label">Leaders Trained</div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="section insights-preview">
+<!-- Testimonials -->
+<section class="section testimonials scroll-animate">
+    <div class="container">
+        <h2 class="section-title">What Our Clients Say</h2>
+        <div class="testimonial-slider">
+            <div class="testimonial-track">
+                <div class="testimonial-card active">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left quote-icon"></i>
+                        <p>"Strategic Synergy transformed our leadership pipeline. Their tailored approach to executive
+                            development delivered measurable results within 6 months — a 40% improvement in leadership
+                            readiness scores."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user-tie"></i></div>
+                        <div class="author-info">
+                            <strong>Senior HR Director</strong>
+                            <span>Zimplats Holdings</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left quote-icon"></i>
+                        <p>"Their cultural transformation programme was exactly what our organisation needed. Employee
+                            engagement scores increased by 35% and voluntary turnover dropped significantly."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user-tie"></i></div>
+                        <div class="author-info">
+                            <strong>Group CEO</strong>
+                            <span>Dairibord Holdings</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left quote-icon"></i>
+                        <p>"Working with Strategic Synergy on our talent strategy was a game-changer. They understood
+                            our unique challenges in the mining sector and delivered solutions that truly work."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"><i class="fas fa-user-tie"></i></div>
+                        <div class="author-info">
+                            <strong>Head of People & Culture</strong>
+                            <span>PPC Zimbabwe</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-nav">
+                <button class="testimonial-dot active" aria-label="Testimonial 1"></button>
+                <button class="testimonial-dot" aria-label="Testimonial 2"></button>
+                <button class="testimonial-dot" aria-label="Testimonial 3"></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section insights-preview scroll-animate">
     <div class="container">
         <h2 class="section-title">Latest Perspectives</h2>
         <div class="grid-3">
             <div class="card insight-card featured">
+                <div class="insight-card-img">
+                    <img src="{% static 'img/20180622_123850.jpg' %}" alt="Workshop session">
+                </div>
                 <span class="badg">Featured</span>
                 <h3>The Future of Hybrid Work</h3>
                 <p>How organizations are adapting to the new normal while maintaining culture.</p>
                 <a href="#" class="read-more">Read Article &rarr;</a>
             </div>
             <div class="card insight-card">
+                <div class="insight-card-img">
+                    <img src="{% static 'img/20180915_083303.jpg' %}" alt="Team training">
+                </div>
                 <span class="badg">New</span>
                 <h3>AI in HR</h3>
                 <p>Leveraging artificial intelligence for better talent acquisition.</p>
                 <a href="#" class="read-more">Read Article &rarr;</a>
             </div>
             <div class="card insight-card">
+                <div class="insight-card-img">
+                    <img src="{% static 'img/20220716_114327.jpg' %}" alt="Leadership development">
+                </div>
                 <span class="badg">Trend</span>
                 <h3>Leadership in Crisis</h3>
                 <p>Navigating uncertainty with resilience and empathy.</p>
@@ -128,7 +229,7 @@
     </div>
 </section>
 
-<section class="section job-search-banner">
+<section class="section job-search-banner scroll-animate">
     <div class="container text-center">
         <h2>Find Your Next Challenge</h2>
         <p>Explore opportunities with top employers.</p>
@@ -139,21 +240,21 @@
     </div>
 </section>
 
-<section class="section features">
+<section class="section features scroll-animate">
     <div class="container">
         <h2 class="section-title">Why Choose Us?</h2>
         <div class="grid-3">
-            <div class="card feature-card">
+            <div class="card feature-card stagger-child">
                 <div class="icon">🚀</div>
                 <h3>Growth Focused</h3>
                 <p>Strategies aligned with your business goals to ensure sustainable expansion.</p>
             </div>
-            <div class="card feature-card">
+            <div class="card feature-card stagger-child">
                 <div class="icon">💡</div>
                 <h3>Innovative Solutions</h3>
                 <p>Modern HR practices that adapt to the changing landscape of work.</p>
             </div>
-            <div class="card feature-card">
+            <div class="card feature-card stagger-child">
                 <div class="icon">🤝</div>
                 <h3>People First</h3>
                 <p>Building cultures where employees thrive and businesses flourish.</p>

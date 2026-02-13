@@ -22,8 +22,21 @@ def debug_render():
     status_choices = Application.STATUS_CHOICES
     print(f"DEBUG: status_choices = {status_choices}")
     
+    apps_data = [{
+        'id': app.id,
+        'full_name': app.full_name,
+        'email': app.email,
+        'phone': app.phone,
+        'job_title': app.job.title if app.job else 'No Job',
+        'applied_at': app.applied_at.strftime('%b %d, %Y') if hasattr(app.applied_at, 'strftime') else 'Feb 05, 2026',
+        'rating': app.rating,
+        'status': app.status,
+        'resume_url': app.resume.url if hasattr(app, 'resume') and app.resume else '#',
+        'notes': app.notes if hasattr(app, 'notes') else '',
+    }]
+    
     ctx = {
-        'applications': [app],
+        'applications': apps_data,
         'status_choices': status_choices,
         'stats': {'total':1, 'pending':1, 'reviewed':0, 'interview':0, 'hired':0},
         'title': 'Test',

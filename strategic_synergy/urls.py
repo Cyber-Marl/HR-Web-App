@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('portal/', include('portal.urls')),
     path('events/', include('events.urls')),
+    path('onboarding/', include('onboarding.urls')),
 ]
 
 if settings.DEBUG:

@@ -30,6 +30,11 @@
                             Add Resource</a>
                         <a href="{% url 'portal:hr_all_applications' %}" class="nav-link"><i class="fas fa-users"></i>
                             All Applications</a>
+                        <a href="{% url 'portal:hr_analytics' %}" class="nav-link"><i class="fas fa-chart-pie"></i>
+                            Analytics</a>
+                        <a href="{% url 'onboarding:program_list' %}" class="nav-link"><i
+                                class="fas fa-clipboard-list"></i>
+                            Onboarding</a>
                         <form method="post" action="{% url 'portal:logout' %}" style="margin: 0;">
                             {% csrf_token %}
                             <button type="submit" class="nav-link logout-link"

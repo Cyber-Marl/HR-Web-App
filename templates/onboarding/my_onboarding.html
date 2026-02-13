@@ -1,0 +1,348 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>My Onboarding</h1>
+        <p>Complete your onboarding tasks to get started.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container" style="max-width: 900px;">
+        {% if assignments %}
+        {% for assignment in assignments %}
+        <div class="onboarding-card {% if assignment.is_completed %}completed{% endif %}">
+            <div class="onboarding-card-header">
+                <div>
+                    <h2>{{ assignment.program_title }}</h2>
+                    {% if assignment.program_description %}
+                    <p class="program-desc">{{ assignment.program_description }}</p>
+                    {% endif %}
+                </div>
+                {% if assignment.is_completed %}
+                <div class="completion-badge"><i class="fas fa-check-circle"></i> Completed!</div>
+                {% endif %}
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="onboarding-progress">
+                <div class="progress-info">
+                    <span class="progress-label" id="progress-label-{{ assignment.id }}">{{ assignment.completed_count
+                        }} of {{ assignment.total_tasks }} tasks completed</span>
+                    {% if assignment.due_date %}
+                    <span class="due-date"><i class="fas fa-calendar-alt"></i> Due: {{ assignment.due_date }}</span>
+                    {% endif %}
+                </div>
+                <div class="progress-bar-lg">
+                    <div class="progress-bar-fill-lg" id="progress-bar-{{ assignment.id }}"
+                        style="width: {{ assignment.progress }}%"></div>
+                </div>
+                <span class="progress-percent" id="progress-percent-{{ assignment.id }}">{{ assignment.progress
+                    }}%</span>
+            </div>
+
+            <!-- Task Checklist -->
+            <div class="task-checklist">
+                {% for task in assignment.tasks %}
+                <div class="checklist-item {% if task.is_completed %}done{% endif %}"
+                    id="task-{{ task.completion_id }}">
+                    <div class="checklist-check">
+                        {% if task.is_completed %}
+                        <i class="fas fa-check-circle check-done"></i>
+                        {% else %}
+                        <button class="check-btn" onclick="completeTask({{ task.completion_id }}, {{ assignment.id }})">
+                            <i class="far fa-circle"></i>
+                        </button>
+                        {% endif %}
+                    </div>
+                    <div class="checklist-info">
+                        <h4>{{ task.title }}</h4>
+                        {% if task.description %}
+                        <p>{{ task.description }}</p>
+                        {% endif %}
+                        <div class="checklist-meta">
+                            <span class="task-type">{{ task.task_type }}</span>
+                            {% if task.is_required %}
+                            <span class="task-required">Required</span>
+                            {% endif %}
+                            {% if task.is_completed %}
+                            <span class="task-completed-date"><i class="fas fa-check"></i> Completed {{
+                                task.completed_at }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="empty-onboarding">
+            <i class="fas fa-clipboard-check"></i>
+            <h3>No Onboarding Programs Assigned</h3>
+            <p>You don't have any onboarding programs assigned yet. Your HR manager will assign one when you're ready to
+                start.</p>
+            <a href="{% url 'portal:dashboard' %}" class="btn">Back to Dashboard</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    .onboarding-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+        border-left: 4px solid var(--primary);
+    }
+
+    .onboarding-card.completed {
+        border-left-color: #28a745;
+    }
+
+    .onboarding-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+    }
+
+    .onboarding-card-header h2 {
+        color: var(--primary);
+        margin: 0 0 0.25rem;
+    }
+
+    .program-desc {
+        color: #666;
+        margin: 0;
+    }
+
+    .completion-badge {
+        background: #d4edda;
+        color: #155724;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+
+    .onboarding-progress {
+        margin-bottom: 2rem;
+    }
+
+    .progress-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+    .progress-label {
+        font-weight: 500;
+        color: #333;
+    }
+
+    .due-date {
+        color: #888;
+        font-size: 0.9rem;
+    }
+
+    .progress-bar-lg {
+        height: 12px;
+        background: #e9ecef;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .progress-bar-fill-lg {
+        height: 100%;
+        background: linear-gradient(90deg, var(--primary), #28a745);
+        border-radius: 6px;
+        transition: width 0.5s ease;
+    }
+
+    .progress-percent {
+        display: block;
+        text-align: right;
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.25rem;
+    }
+
+    .task-checklist {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .checklist-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: 8px;
+        background: #f8f9fa;
+        transition: all 0.3s;
+    }
+
+    .checklist-item.done {
+        background: #f0fdf4;
+        opacity: 0.8;
+    }
+
+    .checklist-item.done h4 {
+        text-decoration: line-through;
+        color: #888;
+    }
+
+    .checklist-check {
+        flex-shrink: 0;
+        padding-top: 2px;
+    }
+
+    .check-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.4rem;
+        color: #ccc;
+        padding: 0;
+        transition: all 0.2s;
+    }
+
+    .check-btn:hover {
+        color: var(--primary);
+        transform: scale(1.2);
+    }
+
+    .check-done {
+        font-size: 1.4rem;
+        color: #28a745;
+    }
+
+    .checklist-info h4 {
+        margin: 0 0 0.25rem;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .checklist-info p {
+        margin: 0 0 0.5rem;
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .checklist-meta {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .task-type {
+        background: #e8f0fe;
+        color: #1967d2;
+        padding: 0.1rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .task-required {
+        background: #fce8e6;
+        color: #c5221f;
+        padding: 0.1rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .task-completed-date {
+        color: #28a745;
+        font-size: 0.8rem;
+    }
+
+    .empty-onboarding {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .empty-onboarding i {
+        font-size: 3rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+
+    .empty-onboarding h3 {
+        color: #333;
+    }
+
+    .empty-onboarding p {
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+</style>
+
+<script>
+    function completeTask(completionId, assignmentId) {
+        fetch(`/onboarding/complete-task/${completionId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the task item to show completed
+                    const taskItem = document.getElementById(`task-${completionId}`);
+                    taskItem.classList.add('done');
+
+                    // Replace button with check icon
+                    const checkDiv = taskItem.querySelector('.checklist-check');
+                    checkDiv.innerHTML = '<i class="fas fa-check-circle check-done"></i>';
+
+                    // Strike through the title
+                    const title = taskItem.querySelector('h4');
+                    title.style.textDecoration = 'line-through';
+                    title.style.color = '#888';
+
+                    // Update progress bar
+                    const progressBar = document.getElementById(`progress-bar-${assignmentId}`);
+                    progressBar.style.width = `${data.progress}%`;
+
+                    const progressLabel = document.getElementById(`progress-label-${assignmentId}`);
+                    progressLabel.textContent = `${data.completed_count} of ${data.total_tasks} tasks completed`;
+
+                    const progressPercent = document.getElementById(`progress-percent-${assignmentId}`);
+                    progressPercent.textContent = `${data.progress}%`;
+
+                    if (data.all_complete) {
+                        location.reload(); // Reload to show completion badge
+                    }
+                }
+            });
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+{% endblock %}

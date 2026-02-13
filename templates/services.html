@@ -2,7 +2,15 @@
 {% load static %}
 
 {% block content %}
-<section class="page-header">
+<style>
+    .services-header {
+        background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.92)),
+        url("{% static 'img/20180622_123850.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+<section class="page-header services-header">
     <div class="container">
         <h1 class="fade-in">Our Expertise</h1>
         <p class="fade-in" style="animation-delay: 0.2s">Comprehensive HR solutions tailored to your unique challenges.
@@ -14,7 +22,10 @@
     <div class="container">
         <div class="services-list">
             <div class="service-item">
-                <div class="service-icon">📊</div>
+                <div class="service-img-wrapper">
+                    <img src="{% static 'img/20190223_150424_800x450.jpg' %}" alt="Strategic HR Planning"
+                        class="service-img">
+                </div>
                 <div class="service-content">
                     <h3>Strategic HR Planning</h3>
                     <p>Aligning your HR strategies with your business goals to drive growth and efficiency. We help you
@@ -23,7 +34,9 @@
             </div>
 
             <div class="service-item">
-                <div class="service-icon">🔍</div>
+                <div class="service-img-wrapper">
+                    <img src="{% static 'img/20181002_122539.jpg' %}" alt="Talent Acquisition" class="service-img">
+                </div>
                 <div class="service-content">
                     <h3>Talent Acquisition</h3>
                     <p>Finding the right people for the right roles. Our recruitment strategies ensure you attract top
@@ -32,7 +45,10 @@
             </div>
 
             <div class="service-item">
-                <div class="service-icon">📈</div>
+                <div class="service-img-wrapper">
+                    <img src="{% static 'img/20170729_134616_800x450.jpg' %}" alt="Performance Management"
+                        class="service-img">
+                </div>
                 <div class="service-content">
                     <h3>Performance Management</h3>
                     <p>Designing systems that motivate employees and track progress. We help you build a
@@ -41,7 +57,10 @@
             </div>
 
             <div class="service-item">
-                <div class="service-icon">🎓</div>
+                <div class="service-img-wrapper">
+                    <img src="{% static 'img/20190223_100941_800x450.jpg' %}" alt="Learning and Development"
+                        class="service-img">
+                </div>
                 <div class="service-content">
                     <h3>Learning & Development</h3>
                     <p>Customized training programs to upskill your workforce and prepare future leaders.</p>

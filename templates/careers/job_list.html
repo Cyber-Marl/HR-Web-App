@@ -1,11 +1,55 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load static %}
+{% load portal_extras %}
 
 {% block content %}
-<section class="page-header">
-    <div class="container">
+<style>
+    .careers-header {
+        background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)),
+        url("{% static 'img/20220716_114327.jpg' %}");
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+<section class="page-header careers-header">
+    <div class="container text-center">
         <h1>Join Our Team</h1>
         <p>Shape the future of work with Strategic Synergy.</p>
+
+        <div class="search-filter-container">
+            <form method="GET" action="{% url 'careers:job_list' %}" class="search-filter-form">
+                <div class="search-group">
+                    <i class="fas fa-search"></i>
+                    <input type="text" name="q" placeholder="Search for jobs..." value="{{ query|default:'' }}">
+                </div>
+
+                <div class="filter-group">
+                    <select name="job_type">
+                        <option value="">All Job Types</option>
+                        {% for type_code, type_name in job_types %}
+                        <option value="{{ type_code }}" {% if selected_job_type|is_eq:type_code %}selected{% endif %}>{{
+                            type_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <select name="location">
+                        <option value="">All Locations</option>
+                        {% for loc in locations %}
+                        <option value="{{ loc }}" {% if selected_location|is_eq:loc %}selected{% endif %}>{{ loc }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Search</button>
+
+                {% if query or selected_job_type or selected_location %}
+                <a href="{% url 'careers:job_list' %}" class="btn btn-link clear-filters">Clear All</a>
+                {% endif %}
+            </form>
+        </div>
     </div>
 </section>
 
@@ -13,21 +57,31 @@
     <div class="container">
         <div class="jobs-grid">
             {% for job in jobs %}
-            <div class="card job-card">
-                <div class="job-header">
+            <div class="card job-card-premium">
+                <div class="job-status">
+                    <span class="badge badge-primary">{{ job.get_job_type_display }}</span>
+                </div>
+                <div class="job-card-content">
                     <h3>{{ job.title }}</h3>
-                    <span class="badg">{{ job.get_job_type_display }}</span>
+                    <div class="job-meta-p">
+                        <span class="meta-item"><i class="fas fa-map-marker-alt"></i> {{ job.location }}</span>
+                        <span class="meta-item"><i class="fas fa-clock"></i> {{ job.posted_at|timesince }} ago</span>
+                    </div>
+                    <p class="job-summary">{{ job.description|truncatewords:25 }}</p>
                 </div>
-                <div class="job-meta">
-                    <span><i class="fas fa-map-marker-alt"></i> {{ job.location }}</span>
-                    <span><i class="fas fa-clock"></i> Posted {{ job.posted_at|timesince }} ago</span>
+                <div class="job-card-footer">
+                    <a href="{% url 'careers:job_detail' job.id %}" class="btn btn-outline-p">View Details</a>
+                    <a href="{% url 'careers:job_detail' job.id %}#apply" class="btn btn-primary-p">Apply Now</a>
                 </div>
-                <p class="job-description-preview">{{ job.description|truncatewords:20 }}</p>
-                <a href="{% url 'careers:job_detail' job.id %}" class="btn btn-outline">View Details & Apply</a>
             </div>
             {% empty %}
-            <div class="text-center">
-                <p>No open positions at the moment. Please check back later.</p>
+            <div class="no-jobs-message text-center">
+                <div class="icon-box">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No jobs found</h3>
+                <p>Try adjusting your search or filters to find what you're looking for.</p>
+                <a href="{% url 'careers:job_list' %}" class="btn btn-outline">Show All Positions</a>
             </div>
             {% endfor %}
         </div>
