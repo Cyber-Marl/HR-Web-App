@@ -29,6 +29,7 @@
                 <div class="meta">
                     <span>By {{ featured_article.author }}</span> &bull; <span>{{ featured_article.created_at|date:"M d,
                         Y" }}</span>
+
                 </div>
             </div>
             <div class="featured-image"
@@ -48,11 +49,26 @@
         <div class="grid-3">
             {% for article in recent_articles %}
             <div class="card insight-card">
-                <span class="badg">{{ article.get_category_display }}</span>
-                <h3><a href="{% url 'insights:article_detail' article.slug %}"
-                        style="text-decoration: none; color: inherit;">{{ article.title }}</a></h3>
-                <p>{{ article.content|truncatewords:20 }}</p>
-                <a href="{% url 'insights:article_detail' article.slug %}" class="read-more">Read Article &rarr;</a>
+                {% if article.image %}
+                <div class="insight-card-image">
+                    <a href="{% url 'insights:article_detail' article.slug %}">
+                        <img src="{{ article.image.url }}" alt="{{ article.title }}">
+                    </a>
+                </div>
+                {% else %}
+                <div class="insight-card-image insight-card-placeholder">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                {% endif %}
+                <div class="insight-card-body">
+                    <span class="badg">{{ article.get_category_display }}</span>
+                    <h3><a href="{% url 'insights:article_detail' article.slug %}">{{ article.title }}</a></h3>
+                    <p>{{ article.content|truncatewords:20 }}</p>
+                    <div class="insight-card-footer">
+                        <span class="insight-meta"><i class="fas fa-user"></i> {{ article.author }}</span>
+                        <a href="{% url 'insights:article_detail' article.slug %}" class="read-more">Read &rarr;</a>
+                    </div>
+                </div>
             </div>
             {% empty %}
             {% if not featured_article %}
@@ -100,6 +116,103 @@
         .featured-article {
             grid-template-columns: 1fr;
         }
+    }
+
+    /* Insight Card with Image Styles */
+    .insight-card {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding: 0 !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .insight-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .insight-card-image {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .insight-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .insight-card:hover .insight-card-image img {
+        transform: scale(1.08);
+    }
+
+    .insight-card-placeholder {
+        background: linear-gradient(135deg, var(--primary), #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .insight-card-placeholder i {
+        font-size: 3rem;
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .insight-card-body {
+        padding: 1.5rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .insight-card-body h3 {
+        margin: 0.75rem 0;
+        font-size: 1.15rem;
+        line-height: 1.4;
+    }
+
+    .insight-card-body h3 a {
+        color: var(--text);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .insight-card-body h3 a:hover {
+        color: var(--primary);
+    }
+
+    .insight-card-body p {
+        flex: 1;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        line-height: 1.6;
+    }
+
+    .insight-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .insight-meta {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .insight-meta i {
+        margin-right: 0.35rem;
+    }
+
+    .featured-image {
+        border-radius: 16px;
+        overflow: hidden;
     }
 </style>
 {% endblock %}
